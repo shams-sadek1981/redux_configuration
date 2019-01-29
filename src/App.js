@@ -1,28 +1,36 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { connect } from 'react-redux';
+import { setName } from './actions/userActions';
 
 class App extends Component {
+
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <p>{ this.props.user.name }</p>
+
+        <button onClick={ () => this.props.setName('Farazi') }>Click Here</button>
+
       </div>
     );
   }
 }
 
-export default App;
+const mapStateToProps = state => {
+  return {
+    user: state.userReducer,
+    math: state.mathReducer
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setName: (name) => {
+      dispatch( setName(name) )
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)
